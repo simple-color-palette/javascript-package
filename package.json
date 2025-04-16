@@ -1,6 +1,6 @@
 {
 	"name": "simple-color-palette",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "A JavaScript implementation of the Simple Color Palette format — a minimal JSON-based file format for defining color palettes",
 	"license": "MIT",
 	"repository": "simple-color-palette/javascript-package",
