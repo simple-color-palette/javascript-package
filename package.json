@@ -1,0 +1,45 @@
+{
+	"name": "simple-color-palette",
+	"version": "0.0.0",
+	"description": "A JavaScript implementation of the Simple Color Palette format — a minimal JSON-based file format for defining color palettes",
+	"license": "MIT",
+	"repository": "simple-color-palette/javascript-package",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"sideEffects": false,
+	"engines": {
+		"node": ">=20"
+	},
+	"scripts": {
+		"test": "xo && ava && tsc index.d.ts"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"color",
+		"colour",
+		"palette",
+		"clr",
+		"ase",
+		"swatch",
+		"json",
+		"list",
+		"collection"
+	],
+	"devDependencies": {
+		"ava": "^6.2.0",
+		"typescript": "^5.8.3",
+		"xo": "^0.60.0"
+	}
+}
