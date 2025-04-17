@@ -1,3 +1,8 @@
+const roundToFourDecimals = number => {
+	const multiplier = 10_000;
+	return Math.round(number * multiplier) / multiplier;
+};
+
 const sRGBToLinear = srgb => {
 	if (srgb <= 0.040_45) {
 		return srgb / 12.92;
@@ -71,16 +76,18 @@ export class Color {
 		validateComponent(opacity, 'Opacity');
 
 		this.name = name;
-		this.#linearRed = isLinear ? red : sRGBToLinear(red);
-		this.#linearGreen = isLinear ? green : sRGBToLinear(green);
-		this.#linearBlue = isLinear ? blue : sRGBToLinear(blue);
-		this.#opacity = clampOpacity(opacity);
+		this.#linearRed = roundToFourDecimals(isLinear ? red : sRGBToLinear(red));
+		this.#linearGreen = roundToFourDecimals(isLinear ? green : sRGBToLinear(green));
+		this.#linearBlue = roundToFourDecimals(isLinear ? blue : sRGBToLinear(blue));
+		this.#opacity = roundToFourDecimals(clampOpacity(opacity));
 	}
 
 	get red() {
 		return linearToSRGB(this.#linearRed);
 	}
 
+	// We don't round in setters to maintain precision during calculations (like `red += 0.1`).
+	// Rounding only happens during initialization and serialization.
 	set red(value) {
 		if (typeof value !== 'number') {
 			throw new TypeError('Red component must be a number');
@@ -144,9 +151,14 @@ export class Color {
 	}
 
 	toJSON() {
-		const components = [this.#linearRed, this.#linearGreen, this.#linearBlue];
+		const components = [
+			roundToFourDecimals(this.#linearRed),
+			roundToFourDecimals(this.#linearGreen),
+			roundToFourDecimals(this.#linearBlue),
+		];
+
 		if (this.#opacity !== 1) {
-			components.push(this.#opacity);
+			components.push(roundToFourDecimals(this.#opacity));
 		}
 
 		const result = {components};
@@ -188,7 +200,6 @@ export class ColorPalette {
 
 	static deserialize(data) {
 		const parsed = JSON.parse(data);
-
 		validatePalette(parsed);
 
 		const colors = parsed.colors.map(color => {
@@ -196,10 +207,10 @@ export class ColorPalette {
 
 			return new Color({
 				name: color.name,
-				red,
-				green,
-				blue,
-				opacity,
+				red: roundToFourDecimals(red),
+				green: roundToFourDecimals(green),
+				blue: roundToFourDecimals(blue),
+				opacity: roundToFourDecimals(opacity),
 				isLinear: true,
 			});
 		});

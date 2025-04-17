@@ -184,3 +184,35 @@ test('color component modification', t => {
 		color.green = 'invalid';
 	}, {message: /number/});
 });
+
+test('precision rounding', t => {
+	const color = new Color({
+		red: 0.123_45, // Should round to 0.1235
+		green: 0.1235, // Should round to 0.1235 (banker's rounding)
+		blue: 0.123_44, // Should round to 0.1234
+		opacity: 0.123_49, // Should round to 0.1235
+		isLinear: true, // Use linear values directly to test rounding
+	});
+
+	const linear = color.linearComponents;
+	t.is(linear.red, 0.1235);
+	t.is(linear.green, 0.1235);
+	t.is(linear.blue, 0.1234);
+	t.is(linear.opacity, 0.1235);
+});
+
+test('precision roundtrip', t => {
+	const color = new Color({
+		red: 0.123_45,
+		green: 0.1235,
+		blue: 0.123_44,
+		opacity: 0.123_49,
+		isLinear: true,
+	});
+
+	// Test serialization maintains precision
+	const serialized = JSON.stringify(color);
+	const parsed = JSON.parse(serialized);
+
+	t.deepEqual(parsed.components, [0.1235, 0.1235, 0.1234, 0.1235]);
+});

@@ -98,6 +98,10 @@ export class Color {
 
 	/**
 	Creates a new color.
+
+	Values are interpreted as extended sRGB (non-linear) by default.
+
+	@note Values are rounded to 4 decimal places. Opacity is clamped to 0...1.
 	*/
 	constructor(options: ColorOptions);
 }
@@ -149,6 +153,8 @@ export class ColorPalette {
 	Creates a new color.
 
 	Values are interpreted as extended sRGB (non-linear) by default.
+
+	@note Values are rounded to 4 decimal places. Opacity is clamped to 0...1.
 	*/
 	static createColor(options: ColorOptions): Color;
 
