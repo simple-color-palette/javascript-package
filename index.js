@@ -82,6 +82,62 @@ export class Color {
 		this.#opacity = roundToFourDecimals(clampOpacity(opacity));
 	}
 
+	static fromHexString(hex) {
+		const string = hex.trim();
+		const withoutHash = string.startsWith('#') ? string.slice(1) : string;
+
+		// Convert 3/4 character hex to 6/8 character hex
+		const expanded = (withoutHash.length === 3 || withoutHash.length === 4)
+			? [...withoutHash].map(x => x + x).join('')
+			: withoutHash;
+
+		if (!/^[\da-f]{6}([\da-f]{2})?$/i.test(expanded)) {
+			throw new Error('Invalid hex color format');
+		}
+
+		const value = Number.parseInt(expanded, 16);
+		return this.fromHexNumber(value);
+	}
+
+	static fromHexNumber(hex) {
+		if (!Number.isInteger(hex) || hex < 0) {
+			throw new Error('Invalid hex value');
+		}
+
+		let red;
+		let green;
+		let blue;
+		let opacity = 1;
+
+		/* eslint-disable no-bitwise */
+		if (hex <= 0xF_FF) { // 12-bit RGB
+			red = ((hex >> 8) & 0xF) / 15;
+			green = ((hex >> 4) & 0xF) / 15;
+			blue = (hex & 0xF) / 15;
+		} else if (hex <= 0xFF_FF) { // 16-bit RGBA
+			red = ((hex >> 12) & 0xF) / 15;
+			green = ((hex >> 8) & 0xF) / 15;
+			blue = ((hex >> 4) & 0xF) / 15;
+			opacity = (hex & 0xF) / 15;
+		} else if (hex <= 0xFF_FF_FF) { // 24-bit RGB
+			red = ((hex >> 16) & 0xFF) / 255;
+			green = ((hex >> 8) & 0xFF) / 255;
+			blue = (hex & 0xFF) / 255;
+		} else if (hex <= 0xFF_FF_FF_FF) { // 32-bit RGBA
+			red = ((hex >> 24) & 0xFF) / 255;
+			green = ((hex >> 16) & 0xFF) / 255;
+			blue = ((hex >> 8) & 0xFF) / 255;
+			opacity = (hex & 0xFF) / 255;
+		} else {
+			throw new Error('Invalid hex value');
+		}
+		/* eslint-enable no-bitwise */
+
+		return new Color({
+			red, green, blue, opacity,
+		});
+	}
+
 	get red() {
 		return linearToSRGB(this.#linearRed);
 	}

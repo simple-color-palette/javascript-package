@@ -35,7 +35,9 @@
 		"swatch",
 		"json",
 		"list",
-		"collection"
+		"collection",
+		"hex",
+		"css"
 	],
 	"devDependencies": {
 		"ava": "^6.2.0",

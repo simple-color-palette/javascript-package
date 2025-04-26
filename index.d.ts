@@ -54,6 +54,58 @@ Represents a color in extended sRGB (non-linear) color space.
 */
 export class Color {
 	/**
+	Creates a color from a hex string.
+
+	Supports the following formats:
+	- RGB: `'#F00'` → red
+	- RGBA: `'#F008'` → red with 50% opacity
+	- RRGGBB: `'#FF0000'` → red
+	- RRGGBBAA: `'#FF000080'` → red with 50% opacity
+
+	The `#` prefix is optional. Both uppercase and lowercase hex digits are supported.
+
+	@note The input is expected to be in sRGB color space, which is the standard color space for hex colors on the web and in design tools.
+
+	@example
+	```
+	import {Color} from 'simple-color-palette';
+
+	const red = Color.fromHexString("#ff0000");
+	const green = Color.fromHexString("00ff00");
+	const blue = Color.fromHexString("#00f"); // Short form
+	const withHalfOpacity = Color.fromHexString("#ff000080"); // 50% opacity
+	```
+
+	@note Converting back to hex is not supported since the components can contain values outside the 0-1 range (wide gamut colors) which cannot be represented in the sRGB hex format.
+	*/
+	static fromHexString(hex: string): Color;
+
+	/**
+	Creates a color from a hex number.
+
+	Supports the following formats:
+	- RGB: `0xF00` → red
+	- RGBA: `0xF008` → red with 50% opacity
+	- RRGGBB: `0xFF0000` → red
+	- RRGGBBAA: `0xFF000080` → red with 50% opacity
+
+	@note The input is expected to be in sRGB color space, which is the standard color space for hex colors on the web and in design tools.
+
+	@example
+	```
+	import {Color} from 'simple-color-palette';
+
+	const red = Color.fromHexNumber(0xFF0000)
+	const green = Color.fromHexNumber(0x00FF00)
+	const blue = Color.fromHexNumber(0x00F)
+	const withHalfOpacity = Color.fromHexNumber(0xFF000080) // 50% opacity
+	```
+
+	@note Converting back to hex is not supported since the components can contain values outside the 0-1 range (wide gamut colors) which cannot be represented in the sRGB hex format.
+	*/
+	static fromHexNumber(hex: number): Color;
+
+	/**
 	Name for the color.
 	*/
 	name?: string;
