@@ -52,7 +52,7 @@ export type ColorOptions = {
 /**
 Represents a color in extended sRGB (non-linear) color space.
 */
-export class Color {
+declare class Color {
 	/**
 	Creates a color from a hex string.
 
@@ -68,12 +68,12 @@ export class Color {
 
 	@example
 	```
-	import {Color} from 'simple-color-palette';
+	import ColorPalette from 'simple-color-palette';
 
-	const red = Color.fromHexString("#ff0000");
-	const green = Color.fromHexString("00ff00");
-	const blue = Color.fromHexString("#00f"); // Short form
-	const withHalfOpacity = Color.fromHexString("#ff000080"); // 50% opacity
+	const red = ColorPalette.Color.fromHexString('#ff0000');
+	const green = ColorPalette.Color.fromHexString('00ff00');
+	const blue = ColorPalette.Color.fromHexString('#00f'); // Short form
+	const withHalfOpacity = ColorPalette.Color.fromHexString('#ff000080'); // 50% opacity
 	```
 
 	@note Converting back to hex is not supported since the components can contain values outside the 0-1 range (wide gamut colors) which cannot be represented in the sRGB hex format.
@@ -93,12 +93,12 @@ export class Color {
 
 	@example
 	```
-	import {Color} from 'simple-color-palette';
+	import ColorPalette from 'simple-color-palette';
 
-	const red = Color.fromHexNumber(0xFF0000)
-	const green = Color.fromHexNumber(0x00FF00)
-	const blue = Color.fromHexNumber(0x00F)
-	const withHalfOpacity = Color.fromHexNumber(0xFF000080) // 50% opacity
+	const red = ColorPalette.Color.fromHexNumber(0xFF0000);
+	const green = ColorPalette.Color.fromHexNumber(0x00FF00);
+	const blue = ColorPalette.Color.fromHexNumber(0x00F);
+	const withHalfOpacity = ColorPalette.Color.fromHexNumber(0xFF000080); // 50% opacity
 	```
 
 	@note Converting back to hex is not supported since the components can contain values outside the 0-1 range (wide gamut colors) which cannot be represented in the sRGB hex format.
@@ -163,16 +163,16 @@ A collection of colors.
 
 @example
 ```
-import {ColorPalette} from 'simple-color-palette';
+import ColorPalette from 'simple-color-palette';
 
-const redColor = ColorPalette.createColor({
+const redColor = new ColorPalette.Color({
 	name: 'Red',
 	red: 1,
 	green: 0,
 	blue: 0,
 });
 
-const greenColor = ColorPalette.createColor({
+const greenColor = new ColorPalette.Color({
 	name: 'Green',
 	red: 0,
 	green: 1,
@@ -200,15 +200,9 @@ const serialized = palette.serialize();
 const loadedPalette = ColorPalette.deserialize(serialized);
 ```
 */
-export class ColorPalette {
-	/**
-	Creates a new color.
-
-	Values are interpreted as extended sRGB (non-linear) by default.
-
-	@note Values are rounded to 4 decimal places. Opacity is clamped to 0...1.
-	*/
-	static createColor(options: ColorOptions): Color;
+export default class ColorPalette {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	static Color: typeof Color;
 
 	/**
 	Creates a new color palette from serialized data.

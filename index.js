@@ -53,7 +53,7 @@ const validateComponent = (value, name) => {
 	}
 };
 
-export class Color {
+class Color {
 	name;
 	#linearRed;
 	#linearGreen;
@@ -226,7 +226,7 @@ export class Color {
 	}
 }
 
-export class ColorPalette {
+export default class ColorPalette {
 	name;
 	colors;
 
@@ -248,10 +248,6 @@ export class ColorPalette {
 
 		this.name = name;
 		this.colors = [...colors];
-	}
-
-	static createColor(options) {
-		return new Color(options);
 	}
 
 	static deserialize(data) {
@@ -285,3 +281,5 @@ export class ColorPalette {
 		};
 	}
 }
+
+ColorPalette.Color = Color;

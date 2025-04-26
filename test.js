@@ -1,5 +1,5 @@
 import test from 'ava';
-import {ColorPalette, Color} from './index.js';
+import ColorPalette from './index.js';
 
 // --- Helpers ---
 
@@ -15,6 +15,8 @@ function assertColorComponents(t, color, expected, decimals = 2) {
 		t.is(round(color.opacity, decimals), expected.opacity);
 	}
 }
+
+const {Color} = ColorPalette;
 
 // --- Tests ---
 

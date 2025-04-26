@@ -13,16 +13,16 @@ npm install simple-color-palette
 ## Usage
 
 ```js
-import {ColorPalette} from 'simple-color-palette';
+import ColorPalette from 'simple-color-palette';
 
-const redColor = ColorPalette.createColor({
+const redColor = new ColorPalette.Color({
 	name: 'Red',
 	red: 1,
 	green: 0,
 	blue: 0,
 });
 
-const greenColor = ColorPalette.createColor({
+const greenColor = new ColorPalette.Color({
 	name: 'Green',
 	red: 0,
 	green: 1,
