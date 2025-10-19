@@ -106,7 +106,7 @@ test('serialization roundtrip', t => {
 			t,
 			deserializedColor.linearComponents,
 			originalColor.linearComponents,
-			4,
+			5,
 		);
 	}
 });
@@ -153,32 +153,32 @@ test('color component modification', t => {
 
 test('precision rounding', t => {
 	const color = new Color({
-		red: 0.123_45,
-		green: 0.1235,
-		blue: 0.123_44,
-		opacity: 0.123_49,
+		red: 0.123_456,
+		green: 0.123_45,
+		blue: 0.123_444,
+		opacity: 0.123_449,
 		isLinear: true,
 	});
 	const linear = color.linearComponents;
-	t.is(linear.red, 0.1235);
-	t.is(linear.green, 0.1235);
-	t.is(linear.blue, 0.1234);
-	t.is(linear.opacity, 0.1235);
+	t.is(linear.red, 0.123_46);
+	t.is(linear.green, 0.123_45);
+	t.is(linear.blue, 0.123_44);
+	t.is(linear.opacity, 0.123_45);
 });
 
 test('precision roundtrip', t => {
 	const color = new Color({
-		red: 0.123_45,
-		green: 0.1235,
-		blue: 0.123_44,
-		opacity: 0.123_49,
+		red: 0.123_456,
+		green: 0.123_45,
+		blue: 0.123_444,
+		opacity: 0.123_449,
 		isLinear: true,
 	});
 
 	// eslint-disable-next-line unicorn/prefer-structured-clone
 	const parsed = JSON.parse(JSON.stringify(color));
 
-	t.deepEqual(parsed.components, [0.1235, 0.1235, 0.1234, 0.1235]);
+	t.deepEqual(parsed.components, [0.123_46, 0.123_45, 0.123_44, 0.123_45]);
 });
 
 // --- Parameterized hex string and number tests ---
@@ -217,7 +217,7 @@ test('hex string initialization: invalid formats', t => {
 const hexNumberCases = [
 	{hexNumber: 0xFF_00_00, expected: {red: 1, green: 0, blue: 0}},
 	{hexNumber: 0xF_00, expected: {red: 1, green: 0, blue: 0}},
-	{hexNumber: 0x12_34_56, expected: {red: 0.0702, green: 0.2038, blue: 0.3373}, decimals: 4},
+	{hexNumber: 0x12_34_56, expected: {red: 0.0706, green: 0.2039, blue: 0.3373}, decimals: 4},
 	{
 		hexNumber: 0xFF_00_00_80, expected: {
 			red: 1, green: 0, blue: 0, opacity: 0.502,

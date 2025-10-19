@@ -1,5 +1,5 @@
-const roundToFourDecimals = number => {
-	const multiplier = 10_000;
+const roundToFiveDecimals = number => {
+	const multiplier = 100_000;
 	return Math.round(number * multiplier) / multiplier;
 };
 
@@ -76,10 +76,10 @@ class Color {
 		validateComponent(opacity, 'Opacity');
 
 		this.name = name;
-		this.#linearRed = roundToFourDecimals(isLinear ? red : sRGBToLinear(red));
-		this.#linearGreen = roundToFourDecimals(isLinear ? green : sRGBToLinear(green));
-		this.#linearBlue = roundToFourDecimals(isLinear ? blue : sRGBToLinear(blue));
-		this.#opacity = roundToFourDecimals(clampOpacity(opacity));
+		this.#linearRed = roundToFiveDecimals(isLinear ? red : sRGBToLinear(red));
+		this.#linearGreen = roundToFiveDecimals(isLinear ? green : sRGBToLinear(green));
+		this.#linearBlue = roundToFiveDecimals(isLinear ? blue : sRGBToLinear(blue));
+		this.#opacity = roundToFiveDecimals(clampOpacity(opacity));
 	}
 
 	static fromHexString(hex) {
@@ -208,13 +208,13 @@ class Color {
 
 	toJSON() {
 		const components = [
-			roundToFourDecimals(this.#linearRed),
-			roundToFourDecimals(this.#linearGreen),
-			roundToFourDecimals(this.#linearBlue),
+			roundToFiveDecimals(this.#linearRed),
+			roundToFiveDecimals(this.#linearGreen),
+			roundToFiveDecimals(this.#linearBlue),
 		];
 
 		if (this.#opacity !== 1) {
-			components.push(roundToFourDecimals(this.#opacity));
+			components.push(roundToFiveDecimals(this.#opacity));
 		}
 
 		const result = {components};
@@ -259,10 +259,10 @@ export default class ColorPalette {
 
 			return new Color({
 				name: color.name,
-				red: roundToFourDecimals(red),
-				green: roundToFourDecimals(green),
-				blue: roundToFourDecimals(blue),
-				opacity: roundToFourDecimals(opacity),
+				red: roundToFiveDecimals(red),
+				green: roundToFiveDecimals(green),
+				blue: roundToFiveDecimals(blue),
+				opacity: roundToFiveDecimals(opacity),
 				isLinear: true,
 			});
 		});
